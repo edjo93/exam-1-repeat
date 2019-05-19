@@ -225,7 +225,73 @@ void crear_tablero(char**matriz,int size){
 
 void mover(char**matriz,int xi,int yi,int xf,int yf,char pieza){
     bool haypieza=false;
-    if(pieza=='w'){//el rey juega
+    bool es_x=false;
+    if(pieza!='w'){//juegan las piezas comunes
+        
+        if (xi==xf){//el movimiento sera en la fila
+            //validamos que no se pueda saltar piezas
+            for(int i=yi+1;i<=yf;i++){
+                if(matriz[xi][i]!=' '){
+                    haypieza=true;
+                }
+
+            }
+            if(!haypieza){//el movimiento se puede hacer si no hay pieza en el camino
+                //la casilla destino es x
+                if(matriz[xf][yf]=='x'){
+                    es_x=true;
+                }
+
+                if(!es_x){//no es x la casilla destino
+                    matriz[xi][yi]=' ';//la pieza se movio de ese sitio
+                    matriz[xf][yf]=pieza;//la pieza se movio a este sitio
+
+                }else{  
+                    cout<<"\nlas piezas comunes no pueden tocar la casilla x";
+
+                }
+                
+                
+            }else{
+
+                cout<<"\nno se puede saltar sobre piezas intente de nuevo";
+            }
+        
+        
+        }else{
+            if (yi==yf){//el movimiento sera en la columna
+                for(int i=xi+1;i<=xf;i++){
+                    if(matriz[i][yi]!=' '){
+                        haypieza=true;
+                    }
+
+                }
+                if(!haypieza){//el movimiento se puede hacer si no hay pieza en el camino
+                    //la casilla destino es x
+                    if(matriz[xf][yf]=='x'){
+                        es_x=true;
+                    }
+
+                    if(!es_x){//no es x la casilla destino
+                        matriz[xi][yi]=' ';//la pieza se movio de ese sitio
+                        matriz[xf][yf]=pieza;//la pieza se movio a este sitio
+
+                    }else{  
+                        cout<<"\nlas piezas comunes no pueden tocar la casilla x";
+
+                    }
+                }else{
+
+                    cout<<"\nno se puede saltar sobre piezas intente de nuevo";
+                }
+            
+            }else{
+                cout<<"\nel movimiento debe ser como el de la torre en ajedrez intente de nuevo";
+            }
+
+        }
+
+    }else{//mismo movimiento solo que con una restriccion
         if (xi==xf){//el movimiento sera en la fila
             //validamos que no se pueda saltar piezas
             for(int i=yi+1;i<=yf;i++){
@@ -241,6 +307,7 @@ void mover(char**matriz,int xi,int yi,int xf,int yf,char pieza){
 
                 cout<<"\nno se puede saltar sobre piezas intente de nuevo";
             }
+
         
         }else{
             if (yi==yf){//el movimiento sera en la columna
@@ -257,51 +324,15 @@ void mover(char**matriz,int xi,int yi,int xf,int yf,char pieza){
 
                     cout<<"\nno se puede saltar sobre piezas intente de nuevo";
                 }
-        
+            
             }else{
                 cout<<"\nel movimiento debe ser como el de la torre en ajedrez intente de nuevo";
             }
-        }
 
-    }else{//el movimiento es para piezas comunes
-        if (xi==xf){//el movimiento sera en la fila
-            //validamos que no se pueda saltar piezas
-            for(int i=yi+1;i<=yf;i++){
-                if(matriz[xi][i]!=' '){
-                    haypieza=true;
-                }
-
-            }
-            if(!haypieza){//el movimiento se puede hacer si no hay pieza en el camino
-                matriz[xi][yi]=' ';//la pieza se movio de ese sitio
-                matriz[xf][yf]=pieza;//la pieza se movio a este sitio
-            }else{
-
-                cout<<"\nno se puede saltar sobre piezas intente de nuevo";
-            }
-        
-        }else{
-            if (yi==yf){//el movimiento sera en la columna
-            for(int i=xi+1;i<=xf;i++){
-                if(matriz[i][yi]!=' '){
-                    haypieza=true;
-                }
-
-            }
-            if(!haypieza){//el movimiento se puede hacer si no hay pieza en el camino
-                matriz[xi][yi]=' ';//la pieza se movio de ese sitio
-                matriz[xf][yf]=pieza;//la pieza se movio a este sitio    
-            }else{
-
-                cout<<"\nno se puede saltar sobre piezas intente de nuevo";
-            }
-        
-            }else{
-                cout<<"\nel movimiento debe ser como el de la torre en ajedrez intente de nuevo";
-            }
         }
 
     }
+
     
     
 
