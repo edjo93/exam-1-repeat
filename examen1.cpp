@@ -11,6 +11,7 @@ char** provisionar_matriz(int);
 void imprimir_matriz(char**,int);
 void liberar_matriz(char**,int);
 void crear_tablero(char**,int );
+void mover(char**matriz,int xi,int yi,int xf,int yf,char pieza);
 //menu repetitivo
 int main(){
     char opcion;
@@ -32,17 +33,30 @@ int main(){
             crear_tablero(matriz,size);
             //mostramos el tablero
             imprimir_matriz(matriz,size);
-
-            //suponemos tener datos
-            x=0;
-            y=0;
-
+            cout<<"ingrese x:";
+            cin>>x;
+            cout<<"ingrese y:";
+            cin>>y;
+            
             //primer turno
             while(!tomar_correcta(matriz,x,y,'n')){//mientras no tomemos una pieza correcta para el turno
                 //continuamos pidiendo que se tome una pieza correcta
-                cout<<"no se ha tomado una pieza correta intente de nuevo";
+                cout<<"\nno se ha tomado una pieza correta intente de nuevo\n";
+                cout<<"ingrese x:";
+                cin>>x;
+                cout<<"ingrese y:";
+                cin>>y;
                 tomar_correcta(matriz,x,y,'n');
             }
+            imprimir_matriz(matriz,size);
+            int xf;
+            int yf;
+            cout<<"ingrese xf:";
+            cin>>xf;
+            cout<<"ingrese yf:";
+            cin>>yf;
+            mover(matriz,x,y,xf,yf,'n');
+            imprimir_matriz(matriz,size);
 
             //liberamos la matriz
             liberar_matriz(matriz,size);
@@ -78,7 +92,8 @@ char** provisionar_matriz(int size){
 	return matriz;
 }
 void imprimir_matriz(char** matriz,int size){
-	for (int i=0;i<size;i++){
+	cout<<endl;
+    for (int i=0;i<size;i++){
 		for(int j=0;j<size;j++){
 			cout<<"["<<matriz[i][j]<<"]";
 		}
@@ -217,7 +232,7 @@ void mover(char**matriz,int xi,int yi,int xf,int yf,char pieza){
         matriz[xi][yi]=' ';//la pieza se movio de ese sitio
         matriz[xf][yf]=pieza;//la pieza se movio a este sitio
         }else{
-            cout<<"\nel movimiento debe ser como el de la torre en ajedrez intente de nuevo"        
+            cout<<"\nel movimiento debe ser como el de la torre en ajedrez intente de nuevo";
         }
     }
     
