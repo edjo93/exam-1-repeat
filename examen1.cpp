@@ -36,16 +36,17 @@ int main(){
             //suponemos tener datos
             x=0;
             y=0;
-/*
+
             //primer turno
             while(!tomar_correcta(matriz,x,y,'n')){//mientras no tomemos una pieza correcta para el turno
                 //continuamos pidiendo que se tome una pieza correcta
                 cout<<"no se ha tomado una pieza correta intente de nuevo";
                 tomar_correcta(matriz,x,y,'n');
             }
-*/
+
             //liberamos la matriz
             liberar_matriz(matriz,size);
+
 
             break;
         case 's':
@@ -205,4 +206,21 @@ void crear_tablero(char**matriz,int size){
                 
     }
         
+}
+
+void mover(char**matriz,int xi,int yi,int xf,int yf,char pieza){
+    if (xi==xf){//el movimiento sera en la fila
+        matriz[xi][yi]=' ';//la pieza se movio de ese sitio
+        matriz[xf][yf]=pieza;//la pieza se movio a este sitio
+    }else{
+        if (yi==yf){//el movimiento sera en la columna
+        matriz[xi][yi]=' ';//la pieza se movio de ese sitio
+        matriz[xf][yf]=pieza;//la pieza se movio a este sitio
+        }else{
+            cout<<"\nel movimiento debe ser como el de la torre en ajedrez intente de nuevo"        
+        }
+    }
+    
+
+
 }
