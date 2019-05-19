@@ -6,7 +6,7 @@ using std::cin;
 
 //no objects
 //prototipos
-bool tomar_correcta(char**matriz,int x,int y,char pieza);
+bool tomar_correcta(char**,int,int,char);
 char** provisionar_matriz(int);
 void imprimir_matriz(char**,int);
 void liberar_matriz(char**,int);
@@ -16,6 +16,8 @@ int main(){
     char opcion;
     int x;
     int y;
+    int size=11;
+    char** matriz=NULL;
     do{
     
     cout<<"\nseleccione una opcion\n\n1.op1\ns.salir\n?:";
@@ -23,24 +25,33 @@ int main(){
 
     switch(opcion){
         case '1':
+            
+            //obtenemos una matriz char
+            matriz=provisionar_matriz(size);
+            //creamos el tablero
+            crear_tablero(matriz,size);
+            //mostramos el tablero
+            imprimir_matriz(matriz,size);
+
             //suponemos tener datos
             x=0;
             y=0;
-
+/*
             //primer turno
             while(!tomar_correcta(matriz,x,y,'n')){//mientras no tomemos una pieza correcta para el turno
                 //continuamos pidiendo que se tome una pieza correcta
                 cout<<"no se ha tomado una pieza correta intente de nuevo";
                 tomar_correcta(matriz,x,y,'n');
             }
-
-
+*/
+            //liberamos la matriz
+            liberar_matriz(matriz,size);
 
             break;
         case 's':
             cout<<"hasta luego\n";
             break;
-        default:cout<<"no ingreso una opcion corrrecta intente de nuevo";
+        default:cout<<"\nno ingreso una opcion corrrecta intente de nuevo";
     }
 
     
