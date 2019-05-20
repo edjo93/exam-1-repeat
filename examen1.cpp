@@ -59,25 +59,23 @@ int main(){
                     cin>>x;
                     cout<<"ingrese yi:";
                     cin>>y;
-                    tomar_correcta(matriz,x,y,'n');
+                    
                 }
                 cout<<"ingrese xf:";
                 cin>>xf;
                 cout<<"ingrese yf:";
                 cin>>yf;
                 
-                while(!mover(matriz,x,y,xf,yf,'n')){//mientras no haya movimiento
-                    cout<<"\nno hubo movimiento intente de nuevo";
-                    cout<<"ingrese xf:";
-                    cin>>xf;
-                    cout<<"ingrese yf:";
-                    cin>>yf;
-                    mover(matriz,x,y,xf,yf,'n');
-                    
+                if(mover(matriz,x,y,xf,yf,'n')){
+                    imprimir_matriz(matriz,size);
+                    cout<<"\nmovimiento hecho";
+                }else{
+                    imprimir_matriz(matriz,size);
+                    cout<<"\nno hubo movimiento";
                 }
-                //los moskovitas se mueven
-                cout<<"\nmovimiento hecho";
-                imprimir_matriz(matriz,size);
+
+                    
+                
                 captura_guardianes(matriz,size);
                 ganan_moskovitas(matriz,size);
                 
@@ -91,41 +89,35 @@ int main(){
                         cin>>sueco;
 
                     }
-                    cout<<"ingrese x:";
+                    cout<<"ingrese xi:";
                     cin>>x;
-                    cout<<"ingrese y:";
+                    cout<<"ingrese yi:";
                     cin>>y;
                     //segundo turno
                     while(!tomar_correcta(matriz,x,y,sueco)){//mientras no tomemos una pieza correcta para el turno
                         //continuamos pidiendo que se tome una pieza correcta
                         cout<<"\nno se ha tomado una pieza correcta intente de nuevo\n";
-                        imprimir_matriz(matriz,size);
-                        cout<<"ingrese x:";
+                        cout<<"ingrese xi:";
                         cin>>x;
-                        cout<<"ingrese y:";
+                        cout<<"ingrese yi:";
                         cin>>y;
-                        tomar_correcta(matriz,x,y,sueco);
+                        
                     }
-                    imprimir_matriz(matriz,size);
                     
                     cout<<"ingrese xf:";
                     cin>>xf;
                     cout<<"ingrese yf:";
                     cin>>yf;
 
-                    while(!mover(matriz,x,y,xf,yf,sueco)){//mientras no haya movimiento
-                    cout<<"\nno hubo movimiento intente de nuevo";
-                    cout<<"ingrese xf:";
-                    cin>>xf;
-                    cout<<"ingrese yf:";
-                    cin>>yf;
-                    mover(matriz,x,y,xf,yf,sueco);
-                    
+                    if(mover(matriz,x,y,xf,yf,sueco)){
+                        imprimir_matriz(matriz,size);
+                        cout<<"\nmovimiento hecho";
+                    }else{
+                        imprimir_matriz(matriz,size);
+                        cout<<"\nno hubo movimiento";
                     }
 
-                    //los suecos se mueven
-                    cout<<"\nmovimiento hecho";
-                    imprimir_matriz(matriz,size);
+                    
                     captura_guardianes(matriz,size);
                     colocar_x(matriz,size);
                     gano_rey(matriz,size);
@@ -475,7 +467,7 @@ bool mover(char**matriz,int xi,int yi,int xf,int yf,char pieza){
     
     
 
-
+    return movimiento;
 }
 
 bool gano_rey(char**matriz,int size){
