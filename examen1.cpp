@@ -11,7 +11,7 @@ char** provisionar_matriz(int);
 void imprimir_matriz(char**,int);
 void liberar_matriz(char**,int);
 void crear_tablero(char**,int );
-void mover(char**matriz,int xi,int yi,int xf,int yf,char pieza);
+bool mover(char**matriz,int xi,int yi,int xf,int yf,char pieza);
 bool gano_rey(char**matriz,int size);
 bool ganan_moskovitas(char**matriz,int size);
 void captura_guardianes(char**,int);
@@ -44,9 +44,10 @@ int main(){
             
             
             while(!gano_rey(matriz,size)&&!ganan_moskovitas(matriz,size)){//mientras no gane el rey ni tampoco los moskovitas el juego continua
-                cout<<"\njuegan moskovitas"<<endl;
                 //primer turno
+                
                 imprimir_matriz(matriz,size);
+                cout<<"\njuegan moskovitas"<<endl;
                 cout<<"ingrese xi:";
                 cin>>x;
                 cout<<"ingrese yi:";
@@ -54,10 +55,9 @@ int main(){
                 while(!tomar_correcta(matriz,x,y,'n')){//mientras no tomemos una pieza correcta para el turno
                     //continuamos pidiendo que se tome una pieza correcta
                     cout<<"\nno se ha tomado una pieza correcta intente de nuevo\n";
-                    imprimir_matriz(matriz,size);
-                    cout<<"ingrese x:";
+                    cout<<"ingrese xi:";
                     cin>>x;
-                    cout<<"ingrese y:";
+                    cout<<"ingrese yi:";
                     cin>>y;
                     tomar_correcta(matriz,x,y,'n');
                 }
@@ -66,22 +66,28 @@ int main(){
                 cout<<"ingrese yf:";
                 cin>>yf;
                 
+                while(!mover(matriz,x,y,xf,yf,'n')){//mientras no haya movimiento
+                    cout<<"\nno hubo movimiento intente de nuevo";
+                    cout<<"ingrese xf:";
+                    cin>>xf;
+                    cout<<"ingrese yf:";
+                    cin>>yf;
+                    mover(matriz,x,y,xf,yf,'n');
+                    
+                }
                 //los moskovitas se mueven
-                mover(matriz,x,y,xf,yf,'n');
+                cout<<"\nmovimiento hecho";
                 imprimir_matriz(matriz,size);
-                //se verifica si el rey gano
                 captura_guardianes(matriz,size);
-                colocar_x(matriz,size);
-                gano_rey(matriz,size);
                 ganan_moskovitas(matriz,size);
                 
                 
 
-                if(!gano_rey(matriz,size)&&!ganan_moskovitas(matriz,size)){//si el rey no ha ganado la siguiente jugada continua y tampoco los moskovitas
+                if(!ganan_moskovitas(matriz,size)){//si los moskovitas no han ganado juegan los suecos
                     cout<<"\nturno de los suecos\nw-mover rey\nb-pieza comun\n?:";
                     cin>>sueco;
                     while(sueco!='w'&&sueco!='b'){//mientras no se elija correctamente una pieza comun o un rey continuamos pidiendo la pieza
-                        cout<<"\nturno de los suecos\nr-mover rey\nc-pieza comun\n?:";
+                        cout<<"\nturno de los suecos\nw-mover rey\nb-pieza comun\n?:";
                         cin>>sueco;
 
                     }
@@ -106,21 +112,38 @@ int main(){
                     cin>>xf;
                     cout<<"ingrese yf:";
                     cin>>yf;
-                    //los moskovitas se mueven
+
+                    while(!mover(matriz,x,y,xf,yf,sueco)){//mientras no haya movimiento
+                    cout<<"\nno hubo movimiento intente de nuevo";
+                    cout<<"ingrese xf:";
+                    cin>>xf;
+                    cout<<"ingrese yf:";
+                    cin>>yf;
                     mover(matriz,x,y,xf,yf,sueco);
+                    
+                    }
+
+                    //los suecos se mueven
+                    cout<<"\nmovimiento hecho";
                     imprimir_matriz(matriz,size);
                     captura_guardianes(matriz,size);
                     colocar_x(matriz,size);
                     gano_rey(matriz,size);
-                    ganan_moskovitas(matriz,size);
+                    
 
                 }
                 
 
             }
 
-
+            //analizamos el resultado
+            if(gano_rey(matriz,size)){
+                cout<<"\nganan los suecos\n";
+            }
             
+            if(ganan_moskovitas(matriz,size)){
+                cout<<"\nganan moskovitas\n";
+            }
 
 
             //liberamos la matriz
@@ -288,7 +311,8 @@ void crear_tablero(char**matriz,int size){
         
 }
 
-void mover(char**matriz,int xi,int yi,int xf,int yf,char pieza){
+bool mover(char**matriz,int xi,int yi,int xf,int yf,char pieza){
+    bool movimiento=false;
     bool haypieza=false;
     bool es_x=false;
     if(pieza!='w'){//juegan las piezas comunes
@@ -321,9 +345,10 @@ void mover(char**matriz,int xi,int yi,int xf,int yf,char pieza){
 
 
                 if(!es_x){//no es x la casilla destino
+                    
                     matriz[xi][yi]=' ';//la pieza se movio de ese sitio
                     matriz[xf][yf]=pieza;//la pieza se movio a este sitio
-
+                    movimiento=true;
                 }else{  
                     cout<<"\nlas piezas comunes no pueden tocar la casilla x";
 
@@ -364,6 +389,7 @@ void mover(char**matriz,int xi,int yi,int xf,int yf,char pieza){
                     if(!es_x){//no es x la casilla destino
                         matriz[xi][yi]=' ';//la pieza se movio de ese sitio
                         matriz[xf][yf]=pieza;//la pieza se movio a este sitio
+                        movimiento=true;
 
                     }else{  
                         cout<<"\nlas piezas comunes no pueden tocar la casilla x";
@@ -403,6 +429,7 @@ void mover(char**matriz,int xi,int yi,int xf,int yf,char pieza){
             if(!haypieza){//el movimiento se puede hacer si no hay pieza en el camino
                 matriz[xi][yi]=' ';//la pieza se movio de ese sitio
                 matriz[xf][yf]=pieza;//la pieza se movio a este sitio
+                movimiento=true;
             }else{
 
                 cout<<"\nno se puede saltar sobre piezas intente de nuevo";
@@ -431,6 +458,7 @@ void mover(char**matriz,int xi,int yi,int xf,int yf,char pieza){
                 if(!haypieza){//el movimiento se puede hacer si no hay pieza en el camino
                     matriz[xi][yi]=' ';//la pieza se movio de ese sitio
                     matriz[xf][yf]=pieza;//la pieza se movio a este sitio    
+                    movimiento=true;
                 }else{
 
                     cout<<"\nno se puede saltar sobre piezas intente de nuevo";
